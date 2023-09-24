@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "FECA",
+    "description": "페미니즘 어휘 사전",
+    "version": "0.1",
+    "icons": {
+      "16": "images/mul-16.png",
+      "32": "images/mul-32.png",
+      "48": "images/mul-48.png",
+      "64": "images/mul-64.png",
+      "128": "images/mul-128.png"
+    },
+    "content_scripts": [
+      {
+        "js": [
+          "scripts/content.js"
+        ],
+        "matches": 
+            ["<all_urls>"]
+      }
+    ],
+    "background": {
+      "service_worker": "scripts/bg.js"
+    },
+    "permissions": [
+      "activeTab", 
+      "storage"
+    ]
+  }
+  
