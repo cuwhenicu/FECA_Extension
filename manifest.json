@@ -4,11 +4,11 @@
     "description": "페미니즘 어휘 사전",
     "version": "0.1",
     "icons": {
-      "16": "images/mul-16.png",
-      "32": "images/mul-32.png",
-      "48": "images/mul-48.png",
-      "64": "images/mul-64.png",
-      "128": "images/mul-128.png"
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "64": "images/icon-64.png",
+      "128": "images/icon-128.png"
     },
     "content_scripts": [
       {
