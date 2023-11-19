@@ -30,8 +30,8 @@ const getWordListFromAPI = async () => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "showWordList") {
     getWordListFromAPI().then((wordList) => {
-      sendResponse(wordList.join(", "));
-    });
-    return true;
+      sendResponse(wordList)
+    })
+    return true
   }
 });
