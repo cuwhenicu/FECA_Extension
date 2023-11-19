@@ -4,14 +4,6 @@
   background-color: #fff;
 }
 
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 60px;
-  color: #222;
-}
-
 .title {
   margin-top: 54px;
   font-size: 16px;
@@ -21,6 +13,14 @@
   margin-top: 9px;
   font-size: 12px;
   color: #004de8;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 60px;
+  color: #222;
 }
 
 .chip {
