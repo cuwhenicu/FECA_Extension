@@ -1,11 +1,103 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  border-radius: 10px !important;
+}
+
+@font-face {
+  font-family: "Happiness-Sans-Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Happiness-Sans-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.header {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 60px;
+  top: 0;
+  left: 0;
+  background: #dfe3e8;
+  color: #004de8;
+  line-height: 36px;
+  letter-spacing: -1px;
+  font-family: "Happiness-Sans-Bold";
+  align-items: center;
+  padding: 15px;
+}
+
+.header-text {
+  display: flex;
+}
+
+.header-text > div:first-child {
+  font-size: 30px;
+  margin-right: 10px;
+}
+
+.header-text > div:last-child {
+  font-size: 18px;
+}
+
+.header > img {
+  color: black;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+}
+
 .container {
-  width: 560px;
-  padding: 50px 17px;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
   background-color: #fff;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+#firstPage {
+  align-items: center;
+  padding: 50px 17px;
+}
+
+#secondPage {
+  padding: 50px 40px 17px 17px;
+}
+
+.hide {
+  display: none;
+}
+
+.home-logo {
+  margin-top: 50px;
+  width: 110px;
+  height: 110px;
+}
+
+.content-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.text-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-image {
+  width: 40px;
+  height: 50px;
+  margin-top: 20px;
+  margin-right: 15px; /* 이미지와 텍스트 사이 간격 조정 */
 }
 
 .title {
-  margin-top: 54px;
+  margin-top: 24px;
   font-size: 16px;
 }
 
@@ -15,11 +107,23 @@
   color: #004de8;
 }
 
+#showWordList {
+  background: #004de8;
+  color: #fff;
+  border: 1px solid #dfe3e8;
+  border-radius: 5px;
+  width: 150px;
+  height: 35px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
 .list {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 60px;
+  margin-top: 30px;
+  height: 100px;
   color: #222;
 }
 
@@ -31,4 +135,68 @@
   border-radius: 17px;
   color: inherit;
   text-decoration: none;
+}
+
+.footer {
+  margin-top: 100px;
+}
+
+.footer2 {
+  margin-bottom: 20px;
+}
+.reqAddWord {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+}
+
+.reqDesc {
+  font-weight: bold;
+  font-size: 12px;
+  color: #979797;
+}
+
+.reqLink {
+  font-size: 15px;
+  color: black;
+  margin: 0 7px;
+}
+
+.reqLink > i {
+  margin-left: 5px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  width: 125px;
+}
+
+.page-control {
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.page-button {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  border-style: none;
+  background-color: #d9d9d9;
+  color: #d9d9d9;
+  cursor: pointer;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.page-button.active {
+  background-color: #848484;
+  color: #848484;
+}
+
+.page-arrows {
+  cursor: pointer;
+  width: 15px;
 }

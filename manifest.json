@@ -23,8 +23,6 @@
   "background": {
     "service_worker": "scripts/bg.js"
   },
-  "permissions": ["activeTab", "storage",     "https://femiwiki.com/*"],
-  "host_permissions": [
-
-  ]
+  "permissions": ["activeTab", "tabs", "storage"],
+  "host_permissions": []
 }

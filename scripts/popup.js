@@ -1,23 +1,78 @@
 const FEMI_WIKI_URL = "https://femiwiki.com/w";
+let globalWords = [];
+let currentPage = 1;
+let visibleStart = 1;
+let visibleEnd = 3;
+const itemsPerPage = 15;
 
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("showWordList");
 
+  const firstPage = document.getElementById("firstPage");
+  const secondPage = document.getElementById("secondPage");
+
+  const closeButton = document.getElementById("closeButton");
+  closeButton.addEventListener("click", () => {
+    window.close();
+  });
+
   button.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ action: "showWordList" }, (response) => {
-      const wordArray = response.split(", "); // 문자열을 배열로 변환
-      setWordList(wordArray);
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.runtime.sendMessage({ action: "fetchWords" }, function (response) {
+        if (response) {
+          globalWords = response.words; // API 응답으로부터 단어 배열 가져오기
+          showPage(currentPage);
+
+          // 새로운 페이지네이션 컨테이너 생성
+          const paginationContainer = document.createElement("div");
+          paginationContainer.id = "paginationContainer";
+
+          // 페이지네이션 생성
+          const pagination = createPagination(globalWords.length, itemsPerPage);
+          paginationContainer.appendChild(pagination);
+
+          // 'footer' 클래스를 가진 요소 찾기
+          const footer = document.querySelector(".footer");
+
+          // footer에 페이지네이션 컨테이너 추가
+          footer.appendChild(paginationContainer);
+
+          updatePaginationButtons();
+
+          // 현재 탭의 콘텐츠 스크립트에 단어 목록 전송
+          chrome.tabs.sendMessage(tabs[0].id, {
+            action: "highlightWords",
+            words: globalWords,
+          });
+
+          // 페이지 전환 로직
+          firstPage.classList.add("hide");
+          secondPage.classList.remove("hide");
+        }
+      });
     });
   });
 });
 
-const setWordList = (data) => {
+function setWordList(words) {
   const resultElement = document.getElementById("result");
-  resultElement.innerHTML = ""; // 기존 내용을 지웁니다.
+  resultElement.innerHTML = ""; // 기존 내용 지우기
+
+  // 새로운 컨테이너 요소 생성
+  const contentContainer = document.createElement("div");
+  contentContainer.classList.add("content-container");
+
+  const textWrapper = document.createElement("div");
+  textWrapper.classList.add("text-wrapper");
+
+  // 이미지 요소 생성
+  const imageElement = document.createElement("img");
+  imageElement.src = "images/content-image.png"; // 이미지 경로 설정
+  imageElement.classList.add("content-image");
 
   const titleText = document.createElement("div");
   titleText.classList.add("title");
-  titleText.textContent = `총 ${data.length}개의 단어를 페미니즘의 시선으로 읽을 수 있어요.`;
+  titleText.textContent = `총 ${words.length}개의 단어를 페미니즘의 시선으로 읽을 수 있어요.`;
 
   const descText = document.createElement("div");
   descText.classList.add("desc");
@@ -27,12 +82,40 @@ const setWordList = (data) => {
   const listElement = document.createElement("div");
   listElement.classList.add("list");
 
-  // 노드를 순차적으로 추가합니다.
-  resultElement.appendChild(titleText);
-  resultElement.appendChild(descText);
-  resultElement.appendChild(listElement);
+  // const reqElement = document.createElement("div");
+  // reqElement.classList.add("reqAddWord");
 
-  data.forEach((item) => {
+  // const reqDescText = document.createElement("span");
+  // reqDescText.classList.add("reqDesc");
+  // reqDescText.textContent = "궁금한 단어가 하이라이팅 되어 있지 않나요?";
+
+  // const reqLink = document.createElement("a");
+  // reqLink.classList.add("reqLink");
+  // reqLink.textContent = "추가 요청하러가기";
+  // reqLink.setAttribute(
+  //   "href",
+  //   "https://docs.google.com/forms/d/1gCTrPpEPq2hASh7_GnDVbRSsuUY9KZMRBF-es7AUDJs/viewform?edit_requested=true"
+  // );
+  // reqLink.target = "_blank";
+
+  // const rightArrowIcon = document.createElement("i");
+  // rightArrowIcon.classList.add("fa-solid");
+  // rightArrowIcon.classList.add("fa-chevron-right");
+
+  textWrapper.appendChild(titleText);
+  textWrapper.appendChild(descText);
+  contentContainer.appendChild(imageElement);
+  contentContainer.appendChild(textWrapper);
+  // reqLink.appendChild(rightArrowIcon);
+  // reqElement.appendChild(reqDescText);
+  // reqElement.appendChild(reqLink);
+  // 노드를 순차적으로 추가합니다.
+
+  resultElement.appendChild(contentContainer);
+  resultElement.appendChild(listElement);
+  //resultElement.appendChild(reqElement);
+
+  words.forEach((item) => {
     const chipElement = document.createElement("a");
     chipElement.classList.add("chip");
     chipElement.textContent = item;
@@ -40,4 +123,118 @@ const setWordList = (data) => {
     chipElement.target = "_blank";
     listElement.appendChild(chipElement);
   });
-};
+}
+
+let currentPageOffset = 0;
+
+// 페이지네이션 생성 함수
+function createPagination(totalItems, itemsPerPage) {
+  const pageCount = Math.ceil(totalItems / itemsPerPage);
+  const paginationContainer = document.createElement("div");
+  paginationContainer.classList.add("pagination");
+
+  const leftArrow = createArrow("left");
+  paginationContainer.appendChild(leftArrow);
+  leftArrow.style.display = pageCount > 3 && currentPage > 1 ? "block" : "none";
+
+  const pageControl = document.createElement("div");
+  pageControl.classList.add("page-control");
+
+  // 페이지 버튼 추가
+  for (let i = 1; i <= pageCount; i++) {
+    const pageButton = document.createElement("button");
+    pageButton.className = "page-button";
+    pageButton.textContent = i;
+    pageButton.addEventListener("click", () => {
+      showPage(i);
+    });
+    pageControl.appendChild(pageButton);
+  }
+
+  paginationContainer.appendChild(pageControl);
+
+  const rightArrow = createArrow("right");
+  paginationContainer.appendChild(rightArrow);
+  rightArrow.style.display =
+    pageCount > 3 && currentPage < pageCount ? "block" : "none";
+
+  return paginationContainer;
+}
+
+// 화살표 생성 함수
+function createArrow(direction) {
+  const arrow = document.createElement("img");
+  arrow.src =
+    direction === "left" ? "images/left-arrow.png" : "images/right-arrow.png";
+  arrow.className = `page-arrows ${direction}-arrow`;
+  arrow.addEventListener("click", () =>
+    movePagination(direction === "left" ? -1 : 1)
+  );
+  return arrow;
+}
+
+function movePagination(direction) {
+  // 실제 페이지 이동 로직
+  const newPageNumber = currentPage + direction;
+  if (
+    newPageNumber >= 1 &&
+    newPageNumber <= Math.ceil(globalWords.length / itemsPerPage)
+  ) {
+    currentPage = newPageNumber;
+    showPage(newPageNumber);
+    moveVisibleRange(direction); // 현재 보이는 페이지 범위 업데이트
+    updatePaginationButtons();
+  }
+}
+
+function updatePaginationButtons() {
+  // 화살표 가시성 업데이트
+  updateArrowVisibility();
+
+  // 페이지 버튼 가시성 업데이트
+  const buttons = document.querySelectorAll(".page-button");
+  buttons.forEach((button, index) => {
+    button.classList.remove("active");
+
+    if (index + 1 === currentPage) {
+      button.classList.add("active");
+    }
+
+    button.style.display =
+      index + 1 >= visibleStart && index + 1 <= visibleEnd ? "block" : "none";
+  });
+}
+function updateArrowVisibility() {
+  const pageCount = Math.ceil(globalWords.length / itemsPerPage);
+  const leftArrow = document.querySelector(".left-arrow");
+  const rightArrow = document.querySelector(".right-arrow");
+
+  if (leftArrow && rightArrow) {
+    leftArrow.style.display = currentPage > 1 ? "block" : "none";
+    rightArrow.style.display = currentPage < pageCount ? "block" : "none";
+  }
+}
+// 화살표 클릭에 따른 페이지 범위 이동
+function moveVisibleRange(direction) {
+  const pageCount = Math.ceil(globalWords.length / itemsPerPage);
+  if (direction === 1 && visibleEnd < pageCount) {
+    visibleStart += 1;
+    visibleEnd += 1;
+  } else if (direction === -1 && visibleStart > 1) {
+    visibleStart -= 1;
+    visibleEnd -= 1;
+  }
+  updatePaginationButtons();
+}
+
+// 페이지 보여주기 함수
+function showPage(pageNumber) {
+  currentPage = pageNumber;
+  const paginatedWords = paginateArray(globalWords, itemsPerPage, pageNumber);
+  setWordList(paginatedWords);
+  updatePaginationButtons();
+}
+
+function paginateArray(array, page_size, page_number) {
+  return array.slice((page_number - 1) * page_size, page_number * page_size);
+}
