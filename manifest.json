@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "FECA",
-  "description": "페미니즘 어휘 사전",
-  "version": "0.1",
+  "name": "FECA: 페미니즘 어휘 사전",
+  "description": "FECA는 페미니즘 용어와 관련된 지식을 쉽게 접할 수 있도록 만들어진 플러그인입니다. FECA is a plugin that helps you look up feminist terminologies.",
+  "version": "0.0.0.1",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
