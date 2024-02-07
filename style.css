@@ -55,6 +55,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 500px;
+  border-radius: 10% !important;
   background-color: #fff;
   font-family: "Noto Sans KR", sans-serif;
 }
@@ -152,12 +153,12 @@ body {
 
 .reqDesc {
   font-weight: bold;
-  font-size: 12px;
+  font-size: 10px;
   color: #979797;
 }
 
 .reqLink {
-  font-size: 15px;
+  font-size: 12px;
   color: black;
   margin: 0 7px;
 }
@@ -168,20 +169,21 @@ body {
 
 .pagination {
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  width: 125px;
+  width: 110px;
 }
 
 .page-control {
   display: flex;
   justify-content: center;
-  overflow-x: hidden;
+  overflow: hidden;
   width: 100%;
 }
 
 .page-button {
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
   border-radius: 100%;
   border-style: none;
   background-color: #d9d9d9;

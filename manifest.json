@@ -4,11 +4,11 @@
   "description": "FECA는 페미니즘 용어와 관련된 지식을 쉽게 접할 수 있도록 만들어진 플러그인입니다. FECA is a plugin that helps you look up feminist terminologies.",
   "version": "0.0.0.1",
   "icons": {
-    "16": "images/icon-16.png",
-    "32": "images/icon-32.png",
-    "48": "images/icon-48.png",
-    "64": "images/icon-64.png",
-    "128": "images/icon-128.png"
+    "16": "images/16.png",
+    "32": "images/32.png",
+    "48": "images/48.png",
+    "64": "images/64.png",
+    "128": "images/128.png"
   },
   "action": {
     "default_title": "FECA",
