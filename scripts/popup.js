@@ -82,38 +82,15 @@ function setWordList(words) {
   const listElement = document.createElement("div");
   listElement.classList.add("list");
 
-  // const reqElement = document.createElement("div");
-  // reqElement.classList.add("reqAddWord");
-
-  // const reqDescText = document.createElement("span");
-  // reqDescText.classList.add("reqDesc");
-  // reqDescText.textContent = "궁금한 단어가 하이라이팅 되어 있지 않나요?";
-
-  // const reqLink = document.createElement("a");
-  // reqLink.classList.add("reqLink");
-  // reqLink.textContent = "추가 요청하러가기";
-  // reqLink.setAttribute(
-  //   "href",
-  //   "https://docs.google.com/forms/d/1gCTrPpEPq2hASh7_GnDVbRSsuUY9KZMRBF-es7AUDJs/viewform?edit_requested=true"
-  // );
-  // reqLink.target = "_blank";
-
-  // const rightArrowIcon = document.createElement("i");
-  // rightArrowIcon.classList.add("fa-solid");
-  // rightArrowIcon.classList.add("fa-chevron-right");
-
   textWrapper.appendChild(titleText);
   textWrapper.appendChild(descText);
   contentContainer.appendChild(imageElement);
   contentContainer.appendChild(textWrapper);
-  // reqLink.appendChild(rightArrowIcon);
-  // reqElement.appendChild(reqDescText);
-  // reqElement.appendChild(reqLink);
+
   // 노드를 순차적으로 추가합니다.
 
   resultElement.appendChild(contentContainer);
   resultElement.appendChild(listElement);
-  //resultElement.appendChild(reqElement);
 
   words.forEach((item) => {
     const chipElement = document.createElement("a");
