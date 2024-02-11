@@ -79,6 +79,10 @@ body {
   height: 110px;
 }
 
+#result {
+  height: 300px;
+}
+
 .content-container {
   display: flex;
   align-items: center;
@@ -138,7 +142,7 @@ body {
 }
 
 .footer {
-  margin-top: 100px;
+  margin-top: 20px;
 }
 
 .footer2 {
@@ -168,7 +172,7 @@ body {
 
 .pagination {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   width: 110px;
 }
@@ -177,7 +181,7 @@ body {
   display: flex;
   justify-content: center;
   overflow: hidden;
-  width: 100%;
+  flex-grow: 1;
 }
 
 .page-button {
@@ -200,4 +204,9 @@ body {
 .page-arrows {
   cursor: pointer;
   width: 15px;
+  visibility: hidden;
+}
+
+.page-arrows.visible {
+  visibility: visible;
 }
