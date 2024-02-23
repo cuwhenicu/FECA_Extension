@@ -87,8 +87,6 @@ function setWordList(words) {
   contentContainer.appendChild(imageElement);
   contentContainer.appendChild(textWrapper);
 
-  // 노드를 순차적으로 추가합니다.
-
   resultElement.appendChild(contentContainer);
   resultElement.appendChild(listElement);
 
@@ -112,7 +110,6 @@ function createPagination(totalItems, itemsPerPage) {
 
   const leftArrow = createArrow("left");
   paginationContainer.appendChild(leftArrow);
-  // leftArrow.style.display = pageCount > 3 && currentPage > 1 ? "block" : "none";
 
   const pageControl = document.createElement("div");
   pageControl.classList.add("page-control");
@@ -187,9 +184,6 @@ function updateArrowVisibility() {
   const rightArrow = document.querySelector(".right-arrow");
 
   if (leftArrow && rightArrow) {
-    //  leftArrow.style.display = currentPage > 1 ? "block" : "none";
-    //  rightArrow.style.display = currentPage < pageCount ? "block" : "none";
-
     leftArrow.classList.toggle("visible", currentPage > 1);
     rightArrow.classList.toggle("visible", currentPage < pageCount);
   }

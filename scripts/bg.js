@@ -12,6 +12,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         console.error("Error fetching words:", error);
         sendResponse({ error: error.message });
       });
-    return true; // 비동기 응답 처리를 위해 true를 반환
+    return true;
   }
 });
