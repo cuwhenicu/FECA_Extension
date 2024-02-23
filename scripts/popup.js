@@ -51,8 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
               // 'footer' 클래스를 가진 요소 찾기
               const footer = document.querySelector(".footer");
-
-              // footer에 페이지네이션 컨테이너 추가
               footer.appendChild(paginationContainer);
 
               updatePaginationButtons();
@@ -72,55 +70,89 @@ function setWordList(words) {
   const resultElement = document.getElementById("result");
   resultElement.innerHTML = ""; // 기존 내용 지우기
 
-  // 새로운 컨테이너 요소 생성
-  const contentContainer = document.createElement("div");
-  contentContainer.classList.add("content-container");
+  if (words.length > 0) {
+    // 새로운 컨테이너 요소 생성
+    const contentContainer = document.createElement("div");
+    contentContainer.classList.add("content-container");
 
-  const textWrapper = document.createElement("div");
-  textWrapper.classList.add("text-wrapper");
+    const textWrapper = document.createElement("div");
+    textWrapper.classList.add("text-wrapper");
 
-  // 이미지 요소 생성
-  const imageElement = document.createElement("img");
-  imageElement.src = "images/content-image.png"; // 이미지 경로 설정
-  imageElement.classList.add("content-image");
+    // 이미지 요소 생성
+    const imageElement = document.createElement("img");
+    imageElement.src = "images/content-image.png";
+    imageElement.classList.add("content-image");
 
-  const titleText = document.createElement("div");
-  titleText.classList.add("title");
-  titleText.textContent = `총 ${words.length}개의 단어를 페미니즘의 시선으로 읽을 수 있어요.`;
+    const titleText = document.createElement("div");
+    titleText.classList.add("title");
+    titleText.textContent = `총 ${words.length}개의 단어를 페미니즘의 시선으로 읽을 수 있어요.`;
 
-  const descText = document.createElement("div");
-  descText.classList.add("desc");
-  descText.textContent =
-    "각 단어를 누르면 페미위키의 해당 항목으로 이동합니다.";
+    const descText = document.createElement("div");
+    descText.classList.add("desc");
+    descText.textContent =
+      "각 단어를 누르면 페미위키의 해당 항목으로 이동합니다.";
 
-  const listElement = document.createElement("div");
-  listElement.classList.add("list");
+    const listElement = document.createElement("div");
+    listElement.classList.add("list");
 
-  textWrapper.appendChild(titleText);
-  textWrapper.appendChild(descText);
-  contentContainer.appendChild(imageElement);
-  contentContainer.appendChild(textWrapper);
+    textWrapper.appendChild(titleText);
+    textWrapper.appendChild(descText);
+    contentContainer.appendChild(imageElement);
+    contentContainer.appendChild(textWrapper);
 
-  resultElement.appendChild(contentContainer);
-  resultElement.appendChild(listElement);
+    resultElement.appendChild(contentContainer);
+    resultElement.appendChild(listElement);
 
-  words.forEach((item) => {
-    const chipElement = document.createElement("a");
-    chipElement.classList.add("chip");
-    chipElement.textContent = item;
-    chipElement.href = `${FEMI_WIKI_URL}/${encodeURI(item)}`;
-    chipElement.target = "_blank";
-    listElement.appendChild(chipElement);
-  });
+    words.forEach((item) => {
+      const chipElement = document.createElement("a");
+      chipElement.classList.add("chip");
+      chipElement.textContent = item;
+      chipElement.href = `${FEMI_WIKI_URL}/${encodeURI(item)}`;
+      chipElement.target = "_blank";
+      listElement.appendChild(chipElement);
+    });
+  } else {
+    const contentContainer = document.createElement("div");
+    contentContainer.classList.add("content-container");
+
+    const textWrapper = document.createElement("div");
+    textWrapper.classList.add("text-wrapper");
+
+    // 이미지 요소 생성
+    const imageElement = document.createElement("img");
+    imageElement.src = "images/content-image.png";
+    imageElement.classList.add("content-image");
+
+    const titleText = document.createElement("div");
+    titleText.classList.add("title");
+    titleText.textContent = "입력하신 단어는 미등록된 단어입니다.";
+
+    const descText = document.createElement("div");
+    descText.classList.add("desc");
+    descText.textContent = "추가 요청하시겠습니까?";
+
+    textWrapper.appendChild(titleText);
+    textWrapper.appendChild(descText);
+    contentContainer.appendChild(imageElement);
+    contentContainer.appendChild(textWrapper);
+
+    resultElement.appendChild(contentContainer);
+  }
 }
 
 let currentPageOffset = 0;
 
 // 페이지네이션 생성 함수
 function createPagination(totalItems, itemsPerPage) {
-  const pageCount = Math.ceil(totalItems / itemsPerPage);
   const paginationContainer = document.createElement("div");
   paginationContainer.classList.add("pagination");
+
+  if (totalItems <= itemsPerPage) {
+    paginationContainer.style.display = "none";
+    return paginationContainer;
+  }
+
+  const pageCount = Math.ceil(totalItems / itemsPerPage);
 
   const leftArrow = createArrow("left");
   paginationContainer.appendChild(leftArrow);
