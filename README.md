@@ -21,7 +21,7 @@
 
 ## 오픈소스
 1️⃣ FECA의 모든 코드를 MIT License로 전체를 공개합니다.
-🌐 FECA github Link
+
 
 2️⃣ 젠더폭력 틀 수정
 🔗 https://fmwk.page.link/qUH9
