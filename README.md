@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="./images/homelogo.png" alt="FECA ICON" >
+</p>
+<br />
+
 # FECA는 무엇인가요?
 
 **FECA**는 ‘페미니즘(Feminism)’과 ‘어휘(Vocabulary)’를 합성한 이름으로, 뉴스기사 등의 텍스트 컨텐츠속에서 만나게 되는 페미니즘 개념에 대한 이해를 돕는 사전식 크롬 확장 플러그인입니다.
@@ -34,6 +39,9 @@
 개발 : 이풍현, 강지우 <br /> 
 디자인 : fluidto <br />
 글 : fluidto, eunsoo
+
 <br />
+[🌐 코드포코리아 웹사이트](https://codefor.kr/) <br />
+[✉ 코드포코리아 이메일](mailto:contact@codefor.kr) <br />
 
 이 프로젝트는 코드포코리아 밋앤핵(Meet & Hack)에서 fluidto의 제안으로 시작되었습니다.
