@@ -1,21 +1,27 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "highlightWords") {
-    highlightWordsInPage(request.words);
+    let matchedWords = highlightWordsInPage(request.words);
+    sendResponse({ words: matchedWords });
   }
 });
 
 function highlightWordsInPage(words) {
+  let matchedWords = [];
   words.forEach((word) => {
-    highlightWord(document.body, word);
+    if (highlightWord(document.body, word)) {
+      matchedWords.push(word);
+    }
   });
+  return matchedWords;
 }
 
 function highlightWord(node, word) {
+  let matched = false;
   node.childNodes.forEach((child) => {
     if (child.nodeType === Node.TEXT_NODE) {
       const regex = new RegExp("(" + word + ")", "gi");
-      const matches = child.textContent.match(regex);
-      if (matches) {
+      if (child.textContent.match(regex)) {
+        matched = true; // 단어가 일치하면 matched를 true로 설정
         const fragment = document.createDocumentFragment();
         let lastIdx = 0;
         child.textContent.replace(regex, (match, p1, offset) => {
@@ -34,7 +40,8 @@ function highlightWord(node, word) {
         node.replaceChild(fragment, child);
       }
     } else if (child.nodeType === Node.ELEMENT_NODE) {
-      highlightWord(child, word);
+      matched = highlightWord(child, word) || matched;
     }
   });
+  return matched;
 }

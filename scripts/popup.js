@@ -1,5 +1,6 @@
 const FEMI_WIKI_URL = "https://femiwiki.com/w";
 let globalWords = [];
+let matchedWords = [];
 let currentPage = 1;
 let visibleStart = 1;
 let visibleEnd = 3;
@@ -20,34 +21,47 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.runtime.sendMessage({ action: "fetchWords" }, function (response) {
         if (response) {
-          globalWords = response.words; // API 응답으로부터 단어 배열 가져오기
-          showPage(currentPage);
+          // 1. 페미위키로부터 받아온 젠더폭력 단어 배열
+          globalWords = response.words;
 
-          // 새로운 페이지네이션 컨테이너 생성
-          const paginationContainer = document.createElement("div");
-          paginationContainer.id = "paginationContainer";
+          // 2. 젠더폭력 단어 배열로 현재 문서에서 매치가 된 단어를 추리기
+          chrome.tabs.sendMessage(
+            tabs[0].id,
+            {
+              action: "highlightWords",
+              words: globalWords,
+            },
+            function (res) {
+              console.log(res);
+              matchedWords = res.words;
 
-          // 페이지네이션 생성
-          const pagination = createPagination(globalWords.length, itemsPerPage);
-          paginationContainer.appendChild(pagination);
+              // 3. 추린 단어를 팝업에 목록으로 보여주기
+              showPage(currentPage);
 
-          // 'footer' 클래스를 가진 요소 찾기
-          const footer = document.querySelector(".footer");
+              // 새로운 페이지네이션 컨테이너 생성
+              const paginationContainer = document.createElement("div");
+              paginationContainer.id = "paginationContainer";
 
-          // footer에 페이지네이션 컨테이너 추가
-          footer.appendChild(paginationContainer);
+              // 페이지네이션 생성
+              const pagination = createPagination(
+                matchedWords.length,
+                itemsPerPage
+              );
+              paginationContainer.appendChild(pagination);
 
-          updatePaginationButtons();
+              // 'footer' 클래스를 가진 요소 찾기
+              const footer = document.querySelector(".footer");
 
-          // 현재 탭의 콘텐츠 스크립트에 단어 목록 전송
-          chrome.tabs.sendMessage(tabs[0].id, {
-            action: "highlightWords",
-            words: globalWords,
-          });
+              // footer에 페이지네이션 컨테이너 추가
+              footer.appendChild(paginationContainer);
 
-          // 페이지 전환 로직
-          firstPage.classList.add("hide");
-          secondPage.classList.remove("hide");
+              updatePaginationButtons();
+
+              // 페이지 전환 로직
+              firstPage.classList.add("hide");
+              secondPage.classList.remove("hide");
+            }
+          );
         }
       });
     });
@@ -204,7 +218,7 @@ function moveVisibleRange(direction) {
 // 페이지 보여주기 함수
 function showPage(pageNumber) {
   currentPage = pageNumber;
-  const paginatedWords = paginateArray(globalWords, itemsPerPage, pageNumber);
+  const paginatedWords = paginateArray(matchedWords, itemsPerPage, pageNumber);
   setWordList(paginatedWords);
   updatePaginationButtons();
 }
