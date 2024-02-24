@@ -44,4 +44,5 @@
 [🌐 코드포코리아 웹사이트](https://codefor.kr/) <br />
 [✉ 코드포코리아 이메일](contact@codefor.kr) <br />
 
-이 프로젝트는 코드포코리아 밋앤핵(Meet & Hack)에서 fluidto의 제안으로 시작되었습니다.
+
+**이 프로젝트는 코드포코리아 밋앤핵(Meet & Hack)에서 fluidto의 제안으로 시작되었습니다.**
