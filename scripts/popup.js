@@ -85,7 +85,7 @@ function setWordList(words) {
 
     const titleText = document.createElement("div");
     titleText.classList.add("title");
-    titleText.textContent = `총 ${words.length}개의 단어를 페미니즘의 시선으로 읽을 수 있어요.`;
+    titleText.textContent = `총 ${matchedWords.length}개의 단어를 페미니즘의 시선으로 읽을 수 있어요.`;
 
     const descText = document.createElement("div");
     descText.classList.add("desc");
