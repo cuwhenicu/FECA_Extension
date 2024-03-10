@@ -24,6 +24,6 @@
   "background": {
     "service_worker": "scripts/bg.js"
   },
-  "permissions": ["activeTab", "tabs", "storage"],
+  "permissions": ["activeTab"],
   "host_permissions": []
 }
