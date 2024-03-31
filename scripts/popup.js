@@ -22,42 +22,47 @@ document.addEventListener("DOMContentLoaded", () => {
       chrome.runtime.sendMessage({ action: "fetchWords" }, function (response) {
         if (response) {
           // 1. 페미위키로부터 받아온 젠더폭력 단어 배열
-          globalWords = response.words;
+
+          let combinedWords = [
+            ...(Array.isArray(response.words) ? response.words : []),
+            ...(Array.isArray(response.politics) ? response.politics : []),
+          ];
 
           // 2. 젠더폭력 단어 배열로 현재 문서에서 매치가 된 단어를 추리기
           chrome.tabs.sendMessage(
             tabs[0].id,
             {
               action: "highlightWords",
-              words: globalWords,
+              words: combinedWords,
             },
             function (res) {
-              console.log(res);
-              matchedWords = res.words;
+              if (res && Array.isArray(res.words)) {
+                matchedWords = res.words; // 매치된 단어들을 저장합니다.
 
-              // 3. 추린 단어를 팝업에 목록으로 보여주기
-              showPage(currentPage);
+                // 3. 추린 단어를 팝업에 목록으로 보여주기
+                showPage(currentPage);
 
-              // 새로운 페이지네이션 컨테이너 생성
-              const paginationContainer = document.createElement("div");
-              paginationContainer.id = "paginationContainer";
+                // 새로운 페이지네이션 컨테이너 생성
+                const paginationContainer = document.createElement("div");
+                paginationContainer.id = "paginationContainer";
 
-              // 페이지네이션 생성
-              const pagination = createPagination(
-                matchedWords.length,
-                itemsPerPage
-              );
-              paginationContainer.appendChild(pagination);
+                // 페이지네이션 생성
+                const pagination = createPagination(
+                  matchedWords.length,
+                  itemsPerPage
+                );
+                paginationContainer.appendChild(pagination);
 
-              // 'footer' 클래스를 가진 요소 찾기
-              const footer = document.querySelector(".footer");
-              footer.appendChild(paginationContainer);
+                // 'footer' 클래스를 가진 요소 찾기
+                const footer = document.querySelector(".footer");
+                footer.appendChild(paginationContainer);
 
-              updatePaginationButtons();
+                updatePaginationButtons();
 
-              // 페이지 전환 로직
-              firstPage.classList.add("hide");
-              secondPage.classList.remove("hide");
+                // 페이지 전환 로직
+                firstPage.classList.add("hide");
+                secondPage.classList.remove("hide");
+              }
             }
           );
         }
